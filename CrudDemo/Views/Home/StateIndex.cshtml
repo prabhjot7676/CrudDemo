@@ -1,0 +1,58 @@
+﻿@model IEnumerable<CrudDemo.Models.State>
+<div class="container">
+    <div class="row mt-3">
+
+        <div class="col-md-6">
+            <a class="btn btn-sm btn-primary" asp-controller="Home" asp-action="CreateState" asp-route-Id="0">Add state</a>
+            <a class="btn btn-sm btn-primary" asp-controller="Home" asp-action="Index">Back To country</a>
+        </div>
+        <br />
+    </div>
+    <br />
+    <table id="tbldata" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+
+                <th>State Name</th>
+                <th>Country</th>
+                <th>Edit</th>
+                <th>Delete</th>
+
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.Name</td>
+                    <td>@item.statename</td>
+
+                    <td>
+                        <a class="btn btn-sm btn-primary"  asp-controller="Home" asp-action="CreateState" asp-route-Id="@item.Id" asp-route-CountryId="@item.CountryId">Edit</a>
+                    </td>
+                    <td><a class="btn btn-sm btn-primary" id="confirm" onclick="deletestate(@item.Id)">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        function deletestate(id) {
+            var checkstr = confirm('Are you sure you want to delete this?');
+            if (checkstr == true) {
+                $.ajax({
+                    type: "DELETE",
+                    url: '/Home/DeleteState',
+                    data: { id: id },
+                    success: function () {
+                        window.location.href = '/Home/StateIndex';
+
+                    }
+                });
+            }
+        }
+    </script>
+}

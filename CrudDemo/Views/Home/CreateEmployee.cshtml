@@ -1,0 +1,43 @@
+﻿@model State
+
+<h2>Create State</h2>
+
+<form asp-action="Create" id="stateForm">
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" id="name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label mb-1" for="txtsearchbyState">State</label>
+            <select asp-items="@Model.Countries" class="form-select d-inline" id="drpcountry" name="country">
+                <option value="" selected>Choose ...</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#stateForm").submit(function (e) {
+                e.preventDefault();
+                var name = $('#name').val();
+                var country = $('#drpcountry').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Home/CreateState',
+                    data: { Name: name, Country: country },
+                    success: function () {
+
+                    }
+                });
+            });
+        });
+    </script>
+}
